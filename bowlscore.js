@@ -14,7 +14,7 @@ if (Meteor.isClient) {
   };
 
 Template.tgame.gameframes = function () {
-  return Frames.find({gameid: this._id});
+  return Frames.find({gameid: this._id}, {sort: {framenro: 1}} );
 };
 
 Template.tframe.lastframe = function () {
@@ -68,7 +68,7 @@ function updateFrame(game)
   //get all frames to array
   var i = 1;
   var framesInArray = new Array(10);
-  Frames.find({gameid: game.gameid}).forEach(function (frame) {
+  Frames.find({gameid: game.gameid}, {sort: {framenro: 1}}).forEach(function (frame) {
     framesInArray[i] = frame;
     i++;
   });
@@ -77,7 +77,7 @@ function updateFrame(game)
   var fpoints = 0;
   var ftotal = 0;
   //update all frames points
-  Frames.find({gameid: game.gameid}).forEach(function (frame) {
+  Frames.find({gameid: game.gameid}, {sort: {framenro: 1}}).forEach(function (frame) {
       if(frame.framenro < 10)
       {
         var fFirst = getMarkValue(frame.first);
@@ -354,7 +354,7 @@ function updateFrame(game)
 
   Template.tgame.events({
     'click i.del' : function () {
-      var frames = Frames.find({gameid: this._id}).forEach(function (frame) {
+      var frames = Frames.find({gameid: this._id}, {sort: {framenro: 1}}).forEach(function (frame) {
         Frames.remove(frame._id);  
       });
       Games.remove(this._id);
